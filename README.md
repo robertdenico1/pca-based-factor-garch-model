@@ -88,6 +88,7 @@ $$
 
 in order to analyze the persistence of idiosyncratic shocks over time.
 
+![Cumulative Residuals](plots/github1.png)
 ---
 
 # 4. Residual Correlation Analysis
