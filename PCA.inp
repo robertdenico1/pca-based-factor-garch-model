@@ -1,0 +1,72 @@
+list titoli = d_l_AZMMI d_l_BMEDMI d_l_ISPMI d_l_LDOMI d_l_MONCMI d_l_PRYMI d_l_RACEMI d_l_RECMI d_l_STLAMMI d_l_UCGMI
+
+# PCA
+pca titoli --save-all
+
+# Regression on factor scores
+loop foreach y titoli --quiet
+
+    ols $y const PC1 PC2 PC3 PC4 PC5 --robust --quiet
+
+    # idiosyncratic residuals
+    series u_$y = $uhat
+
+    # cumulative idiosyncratic residuals
+    series cumres_$y = cum(u_$y)
+
+endloop
+
+# cumulative idiosyncratic residuals 
+list cumulati = cumres_d_l_AZMMI cumres_d_l_BMEDMI cumres_d_l_ISPMI cumres_d_l_LDOMI cumres_d_l_MONCMI cumres_d_l_PRYMI cumres_d_l_RACEMI cumres_d_l_RECMI cumres_d_l_STLAMMI cumres_d_l_UCGMI 
+gnuplot cumulati --time-series --with-lines --output=display
+
+
+# list idiosyncratic residuals
+list residui = u_d_l_AZMMI u_d_l_BMEDMI u_d_l_ISPMI u_d_l_LDOMI u_d_l_MONCMI u_d_l_PRYMI u_d_l_RACEMI u_d_l_RECMI u_d_l_STLAMMI u_d_l_UCGMI
+
+# residual correlation matrix
+corr residui
+
+# Residual Correlogram
+corrgm residui
+
+# ADF test on idiosyncratic residuals
+
+loop foreach y residui --quiet
+    printf "\nADF test for %s\n", "$y"
+    adf 1 $y --c
+endloop
+
+# Test for Normality 
+
+loop foreach y residui --quiet 
+    printf "\nNormality test for %s\n", "$y"
+    ols $y const --quiet
+    modtest --normality
+endloop
+    
+#ARCH effects on residuals (conditional heteroskedasticity)
+    
+loop foreach y residui --quiet
+
+    printf "\nARCH test for %s\n", "$y"
+
+    ols $y const
+
+    modtest --arch
+
+endloop
+# GARCH(1,1) estimation on idiosyncratic residuals
+
+loop foreach y residui --quiet
+    garch 1 1; $y const --robust --quiet
+    series h_$y = $h
+    series sigma_$y = sqrt($h)
+    
+endloop
+
+list conditional_variances =  h_u_d_l_AZMMI h_u_d_l_BMEDMI h_u_d_l_ISPMI h_u_d_l_LDOMI h_u_d_l_MONCMI h_u_d_l_PRYMI h_u_d_l_RACEMI h_u_d_l_RECMI h_u_d_l_STLAMMI h_u_d_l_UCGMI
+gnuplot conditional_variances --time-series --with-lines --output=display
+
+list conditional_volatilities = sigma_u_d_l_AZMMI sigma_u_d_l_BMEDMI sigma_u_d_l_ISPMI sigma_u_d_l_LDOMI sigma_u_d_l_MONCMI sigma_u_d_l_PRYMI sigma_u_d_l_RACEMI sigma_u_d_l_RECMI sigma_u_d_l_STLAMMI sigma_u_d_l_UCGMI
+gnuplot conditional_volatilities --time-series --with-lines --output=display
