@@ -103,6 +103,8 @@ to verify whether the PCA factor decomposition successfully removes common depen
 
 Lower residual correlations indicate that systematic co-movements have been captured by the PCA factors.
 
+
+![Cumulative Residuals](plots/github4.png)
 ---
 
 # 5. Residual Autocorrelation
@@ -208,7 +210,7 @@ where:
 - $\omega > 0$
 - $\alpha$ measures the impact of past shocks
 - $\beta$ measures volatility persistence
-
+![Cumulative Residuals](plots/screenshot 2026-05-01 190754.png)
 # Main Empirical Findings
 
 - The first five principal components explain more than 80% of total variance.
