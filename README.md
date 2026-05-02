@@ -210,7 +210,14 @@ where:
 - $\omega > 0$
 - $\alpha$ measures the impact of past shocks
 - $\beta$ measures volatility persistence
-![Cumulative Residuals](plots/screenshot 2026-05-01 190754.png)
+
+  
+![Cumulative Residuals](plots/github2.png)
+
+
+![Cumulative Residuals](plots/github3.png)
+
+
 # Main Empirical Findings
 
 - The first five principal components explain more than 80% of total variance.
