@@ -211,11 +211,10 @@ where:
 - $\alpha$ measures the impact of past shocks
 - $\beta$ measures volatility persistence
 
-  
-![Cumulative Residuals](plots/github2.png)
-
 
 ![Cumulative Residuals](plots/github3.png)
+  
+![Cumulative Residuals](plots/github2.png)
 
 
 # Main Empirical Findings
